@@ -1,11 +1,11 @@
-/* Mise en page : inspirée de .page dans BoutiqueVinyles */
+/* Mise en page */
 main {
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 60px;
 }
 
-/* Formulaire : inspiré de .auth-field (champ souligné) et du bouton noir */
+/* Formulaire */
 .ticket-form {
   display: flex;
   flex-wrap: wrap;
@@ -56,7 +56,7 @@ main {
   letter-spacing: 0.08em;
 }
 
-/* Liste : inspirée de .orders-table */
+/* Liste */
 .ticket-list {
   width: 100%;
   border-collapse: collapse;
@@ -89,7 +89,7 @@ main {
 .ticket-list td:last-child,
 .ticket-list th:last-child { text-align: right; }
 
-/* Statut : une petite étiquette, pleine si ouvert, contour si fermé */
+/* Statut : étiquette pleine si ouvert, contour si fermé */
 .status {
   display: inline-block;
   font-size: var(--texte-small);

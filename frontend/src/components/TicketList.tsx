@@ -21,7 +21,6 @@ export function TicketList({ tickets }: Props) {
       </thead>
       <tbody>
         {tickets.map((t) => (
-          // key : permet à React d'identifier chaque ligne entre deux rendus
           <tr key={t.id}>
             <td>{t.title}</td>
             <td>

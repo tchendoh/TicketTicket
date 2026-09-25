@@ -1,4 +1,4 @@
-// Statuts possibles d'un ticket. Un « union type » : seules ces deux valeurs sont acceptées.
+// Statuts possibles d'un ticket.
 export type TicketStatus = 'open' | 'closed'
 
 export interface Ticket {

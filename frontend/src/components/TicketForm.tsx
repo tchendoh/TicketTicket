@@ -13,7 +13,7 @@ export function TicketForm({ onCreated }: Props) {
   const [error, setError] = useState<string | null>(null) // état « création échouée »
 
   async function handleSubmit(e: FormEvent) {
-    e.preventDefault() // empêche le rechargement de la page par le navigateur
+    e.preventDefault()
     const trimmed = title.trim()
     if (trimmed === '') {
       setError('Le titre est obligatoire.') // validation côté client (le backend valide aussi)

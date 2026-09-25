@@ -96,11 +96,11 @@ frontend/src/
 
 - **Validation par schéma** : Un autre truc que j'ai appris sur TypeScript, c'est que, comme c'est une couche par-dessus JavaScript qui disparait à l'exécution, il y a des outils comme Zod qui permettent de valider (le body des requêtes côté serveur + les réponses de l'API côté client) même pendant l'exécution.
 
-- **Tests automatisés** : Claude me suggérait Vitest + Supertest pour l'API, React Testing Library pour les composants. Je me suis noté tout ça pour en apprendre davantage sur les standards TS quand j'aurai du temps, mais ce n'était pas possible dans mon 2-3 heures.
+- **Tests automatisés** : Claude me suggérait Vitest + Supertest pour l'API, React Testing Library pour les composants. Je me suis noté tout ça pour en apprendre davantage sur les standards TS quand j'aurai du temps, mais ce n'était pas possible dans mes 2-3 heures.
 
-- **Fonctionnalités facultatives** : recherche par titre, pagination, modification du statut. J'ai évalué que ce genre de code supplémentaire n'allait pas vraiment me faire gagner des points pour le temps que ça allait me prendre.
+- **Fonctionnalités facultatives** : recherche par titre, pagination, modification du statut. L'énoncé priorise la qualité des fonctionnalités principales alors j'ai préféré consacrer mon temps à bien comprendre et tester le code.
 
-- **Persistance** : Même chose ici où j'ai déjà utilisé plusieurs bases de données dans des projets précédents. 
+- **Persistance** : Même chose ici où j'ai déjà utilisé plusieurs bases de données (MongoDB, MariaDB, MySQL, etc.) dans des projets précédents. 
 
 ## Utilisation de l'IA
 
@@ -116,7 +116,7 @@ J'ai initialisé les deux projets moi-même (gabarit Vite React + TypeScript pou
 
 Comme c'était ma TOUTE PREMIÈRE EXPÉRIENCE avec TypeScript, c'est de loin ce qui m'a grugé le plus de temps dans le processus parce qu'il y a beaucoup de choses que je voulais m'assurer de comprendre avant de les remettre.
 
-Un exemple de ça, c'est types.ts qui est tout nouveau concept qui n'existe pas en JavaScript. C'est le genre de truc qui venait de Claude, mais je me suis renseigné pour confirmer que c'est bel et bien un standard pro et moderne. 
+Un exemple de ça, c'est types.ts qui est un tout nouveau concept qui n'existe pas en JavaScript. C'est le genre de truc qui venait de Claude, mais je me suis renseigné pour confirmer que c'est bel et bien un standard pro et moderne. 
 
 CORS vient de mon ancien projet : le backend indique au navigateur que seule une page venant de l'origine du frontend (5173) a le droit de lire ses réponses.
 

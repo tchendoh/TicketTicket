@@ -18,8 +18,8 @@ app.use((_req, res) => {
   res.status(404).json({ error: 'Route introuvable.' })
 })
 
-// Gestionnaire d'erreurs : Express le reconnaît parce qu'il a 4 paramètres (err en premier).
-// Sans lui, Express répond en HTML avec la trace complète de la pile.
+// Gestionnaire d'erreurs (4 paramètres requis par Express).
+// Sans lui, Express répond en HTML avec la trace de la pile.
 app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   // JSON mal formé : express.json() signale l'erreur avec type 'entity.parse.failed'
   if (typeof err === 'object' && err !== null && 'type' in err && err.type === 'entity.parse.failed') {

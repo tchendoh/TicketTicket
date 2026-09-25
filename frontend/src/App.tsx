@@ -10,7 +10,7 @@ function App() {
   const [loading, setLoading] = useState(true) // état « chargement »
   const [error, setError] = useState<string | null>(null) // état « erreur de chargement »
 
-  // Chargement initial, une seule fois au montage du composant ([] = aucune dépendance).
+  // Chargement initial, une seule fois au montage du composant.
   useEffect(() => {
     fetchTickets()
       .then(setTickets)
