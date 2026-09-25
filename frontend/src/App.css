@@ -1,0 +1,107 @@
+/* Mise en page : inspirée de .page dans BoutiqueVinyles */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 60px;
+}
+
+/* Formulaire : inspiré de .auth-field (champ souligné) et du bouton noir */
+.ticket-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.ticket-form input {
+  flex: 1;
+  font-family: var(--font-texte);
+  font-size: var(--texte-large);
+  border: none;
+  border-bottom: 1px solid var(--noir-funky);
+  outline: none;
+  background: transparent;
+  color: var(--noir-funky);
+  padding: 8px 0;
+}
+
+.ticket-form button {
+  font-family: var(--font-texte);
+  font-size: var(--texte-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--noir-funky);
+  color: var(--blanc);
+  border: none;
+  padding: 16px 24px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.ticket-form button:hover { opacity: 0.75; }
+.ticket-form button:disabled { opacity: 0.4; cursor: wait; }
+.ticket-form .error { flex-basis: 100%; margin: 0; }
+
+/* Messages d'état (chargement, vide, erreur) */
+.state {
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.error {
+  color: var(--rouge-erreur);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Liste : inspirée de .orders-table */
+.ticket-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-list th {
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: var(--texte-small);
+  opacity: 0.4;
+  padding: 0 0 16px;
+  border-bottom: 1px solid var(--noir-funky);
+}
+
+.ticket-list td {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--noir-funky);
+  vertical-align: middle;
+}
+
+.ticket-list td:first-child {
+  font-family: var(--font-titre);
+  font-size: var(--texte-large);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+}
+
+.ticket-list td:last-child,
+.ticket-list th:last-child { text-align: right; }
+
+/* Statut : une petite étiquette, pleine si ouvert, contour si fermé */
+.status {
+  display: inline-block;
+  font-size: var(--texte-small);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 8px;
+  border: 1px solid var(--noir-funky);
+}
+
+.status-open { background: var(--noir-funky); color: var(--blanc); }
+.status-closed { background: transparent; opacity: 0.4; }
+
+@media (max-width: 768px) {
+  main { padding: 24px 20px; }
+}

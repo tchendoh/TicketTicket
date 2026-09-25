@@ -1,0 +1,40 @@
+/* Variables et styles de base repris de BoutiqueVinyles */
+:root {
+  --noir-funky: rgba(16, 16, 16, 1);
+  --blanc: rgba(255, 255, 255, 1);
+  --gris-danseur: rgba(241, 241, 241, 1);
+  --rouge-erreur: #b00020;
+
+  --font-titre: 'Sofia Sans Condensed', sans-serif;
+  --font-texte: 'Spline Sans Mono', monospace;
+
+  --h1-titre: 140px;
+  --h1-titre-mobile: 80px;
+  --texte-large: 20px;
+  --texte-medium: 14px;
+  --texte-small: 10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-texte);
+  font-size: var(--texte-medium);
+  background-color: var(--blanc);
+  color: var(--noir-funky);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-family: var(--font-titre);
+  font-size: var(--h1-titre);
+  text-transform: uppercase;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  margin: 0 0 48px;
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: var(--h1-titre-mobile); }
+}
