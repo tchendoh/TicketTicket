@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { type NextFunction, type Request, type Response } from 'express'
 import cors from 'cors'
 import ticketsRouter from './routes/tickets'
 
@@ -16,4 +16,16 @@ app.use('/api/tickets', ticketsRouter)
 // Toute autre route : 404 en JSON
 app.use((_req, res) => {
   res.status(404).json({ error: 'Route introuvable.' })
+})
+
+// Gestionnaire d'erreurs : Express le reconnaît parce qu'il a 4 paramètres (err en premier).
+// Sans lui, Express répond en HTML avec la trace complète de la pile.
+app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  // JSON mal formé : express.json() signale l'erreur avec type 'entity.parse.failed'
+  if (typeof err === 'object' && err !== null && 'type' in err && err.type === 'entity.parse.failed') {
+    res.status(400).json({ error: 'Le corps de la requête doit être du JSON valide.' })
+    return
+  }
+  console.error(err) // le détail reste dans la console du serveur, jamais envoyé au client
+  res.status(500).json({ error: 'Erreur interne du serveur.' })
 })

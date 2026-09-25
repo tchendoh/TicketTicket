@@ -32,6 +32,7 @@ Ouvrir http://localhost:5173 dans le navigateur.
 ### Variables d'environnement (facultatif)
 
 Le projet fonctionne sans configuration : chaque variable a une valeur par défaut.
+Sans fichier `.env`, le backend affiche « .env not found. Continuing without it. » au démarrage (deux fois, à cause de `tsx watch`) : c'est normal, les valeurs par défaut sont alors utilisées.
 Pour les modifier, copier le fichier d'exemple de chaque côté et l'ajuster :
 
 ```bash
@@ -54,15 +55,17 @@ Les fichiers `.env` ne sont pas versionnés. Côté frontend, les variables `VIT
 | Méthode | Route          | Corps                 | Réponses |
 |---------|----------------|-----------------------|----------|
 | GET     | `/api/tickets` | aucun                 | `200` liste des tickets (du plus récent au plus ancien) |
-| POST    | `/api/tickets` | `{ "title": "..." }`  | `201` ticket créé · `400` titre manquant, vide ou trop long (> 200 caractères) |
+| POST    | `/api/tickets` | `{ "title": "..." }`  | `201` ticket créé · `400` titre manquant, vide ou trop long (> 200 caractères), ou JSON mal formé |
 | *       | autre route    |                       | `404` |
+
+Toutes les réponses sont en JSON, y compris les erreurs (`{ "error": "..." }`). Une erreur inattendue renvoie un `500` générique.
 
 ## Structure du projet
 
 ```
 backend/src/
-  index.ts              démarrage du serveur (port 3000)
-  app.ts                configuration Express : CORS, JSON, routes, 404
+  index.ts              démarrage du serveur (port 3000 par défaut)
+  app.ts                configuration Express : CORS, JSON, routes, 404, erreurs
   types.ts              type Ticket
   routes/tickets.ts     routes GET et POST, validation
   data/ticketStore.ts   stockage en mémoire et tickets initiaux
@@ -85,6 +88,7 @@ frontend/src/
 
 - **Peu de dépendances** : `fetch` natif plutôt qu'Axios que j'avais utilisé dans d'autres projets, mais ici, ça me semblait superflu. `tsx` exécute le TypeScript du backend sans étape de compilation.
 
+- **Gestionnaire d'erreurs Express** : un JSON mal formé renvoie un `400` en JSON, et toute autre erreur un `500` générique. Par défaut, Express répondait en HTML avec la trace complète de la pile (chemins de fichiers inclus).
 
 ## Parties incomplètes et améliorations envisagées
 
@@ -94,12 +98,13 @@ frontend/src/
 
 - **Tests automatisés** : Claude me suggérait Vitest + Supertest pour l'API, React Testing Library pour les composants. Je me suis noté tout ça pour en apprendre davantage sur les standards TS quand j'aurai du temps, mais ce n'était pas possible dans mon 2-3 heures.
 
-- **Fonctionnalités facultatives** : recherche par titre, pagination, modification du statut. 
-- **Persistance** : une vraie base de données (ex. SQLite ou PostgreSQL).
+- **Fonctionnalités facultatives** : recherche par titre, pagination, modification du statut. J'ai évalué que ce genre de code supplémentaire n'allait pas vraiment me faire gagner des points pour le temps que ça allait me prendre.
+
+- **Persistance** : Même chose ici où j'ai déjà utilisé plusieurs bases de données dans des projets précédents. 
 
 ## Utilisation de l'IA
 
-**Outils utilisés :** Claude (Anthropic), dans l'application Claude (mode Cowork). 
+**Outils utilisés :** Claude (Anthropic), dans l'application Claude, mode Cowork. 
 
 Opus 5.5, effort faible. En général, je préfère un effort plus bas qui est plus rapide et je passe le temps gagné à vérifier. 
 
@@ -130,5 +135,41 @@ J'ai parcouru les différents chemins de données possible. Par exemple, le traj
   TicketForm.tsx → api.ts → (réseau) → app.ts → routes/tickets.ts → ticketStore.ts
   → réponse 201 → api.ts → TicketForm.tsx → onCreated → App.tsx
 ```
+
+En faisant les tests (voir ci-bas), j'ai découvert qu'un JSON mal formé renvoyait une page HTML avec la trace de la pile et mes chemins de fichiers. J'ai fait ajouter un gestionnaire d'erreurs dans `app.ts` pour répondre en JSON.
+
 J'ai repris les CSS (en fait, c'est Claude) de mon projet précédent, BoutiqueVinyles, pour flasher un peu mon sens de l'esthétisme et jazzer l'interface un peu. ;)
 
+
+## Tests effectués
+
+Tests manuels, faits selon les exigences de l'énoncé (les tests automatisés sont dans les améliorations envisagées).
+
+### Backend
+
+Requêtes lancées dans Postman, avec le backend démarré. Pour les `POST` : onglet **Body** → **raw** → **JSON**.
+
+- [x] **Lecture et tickets initiaux** : `GET http://localhost:3000/api/tickets` → `200`, trois tickets, du plus récent au plus ancien
+- [x] **Création** : `POST http://localhost:3000/api/tickets`, body `{"title":"Test"}` → `201`, ticket avec `id`, `status: "open"` et `createdAt`
+- [x] **Liste mise à jour** : relancer le `GET` → le ticket créé apparaît en premier
+- [x] **Titre manquant** : `POST`, body `{}` → `400`, « Le titre est obligatoire. »
+- [x] **Titre vide ou seulement des espaces** : `POST`, body `{"title":"   "}` → `400`
+- [x] **Mauvais type** : `POST`, body `{"title":123}` → `400`
+- [x] **Titre trop long** : `POST`, body avec un titre de 201 caractères → `400`, message sur la limite de 200 caractères
+- [x] **Espaces retirés** : `POST`, body `{"title":"  Test  "}` → `201`, titre enregistré `"Test"`
+- [x] **JSON invalide** : `POST`, body `{title:` → `400` en JSON, « Le corps de la requête doit être du JSON valide. »
+- [x] **Route inconnue** : `GET http://localhost:3000/api/nimporte` → `404` en JSON
+- [x] **Données en mémoire** : après un redémarrage du backend, le `GET` ne montre plus le ticket créé, seulement les trois tickets initiaux
+
+### Frontend
+
+- [x] **Liste** : titre, statut et date de création affichés
+- [x] **Création sans rechargement** : le nouveau ticket apparaît en haut de la liste et le champ se vide
+- [x] **Titre obligatoire** : champ vide ou seulement des espaces → message d'erreur, aucune requête envoyée (vérifié dans l'onglet Network)
+- [x] **Chargement** : limitation réseau « Slow 3G » dans les DevTools → « Chargement… »
+- [x] **Erreur de chargement** : backend arrêté, page rechargée → message d'erreur
+- [x] **Aucun ticket** : tableau initial vidé temporairement dans `ticketStore.ts` → « Aucun ticket pour le moment. »
+- [x] **Création en cours** : en « Slow 3G » → bouton « Création… » désactivé
+- [x] **Création échouée** : backend arrêté après le chargement de la page → message d'erreur sous le formulaire, le titre reste dans le champ
+- [x] **Double clic** : deux clics rapides en « Slow 3G » → un seul ticket créé
+- [x] **Persistance pendant la session** : page rechargée après une création → le ticket est toujours là
