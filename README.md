@@ -106,39 +106,39 @@ frontend/src/
 
 **Outils utilisés :** Claude (Anthropic), dans l'application Claude, mode Cowork. 
 
-Opus 5.5, effort faible. En général, je préfère un effort plus bas qui est plus rapide et je passe le temps gagné à vérifier. 
+- Opus 5.5, effort faible. En général, je préfère un effort plus bas qui est plus rapide et je passe le temps gagné à vérifier. 
 
 **Tâches pour lesquelles l'IA m'a aidé :**
 
-En gros, j'avais déjà un projet (BoutiqueVinyles) qui avait un stack semblable alors j'ai souhaité m'inspirer de la structure. 
+- En gros, j'avais déjà un projet (BoutiqueVinyles) qui avait un stack semblable alors j'ai souhaité m'inspirer de la structure. 
 
-J'ai initialisé les deux projets moi-même (gabarit Vite React + TypeScript pour le frontend, `npm install` des dépendances des deux côtés). Claude a ensuite généré la majorité du code applicatif, que j'ai relu.
+- J'ai initialisé les deux projets moi-même (gabarit Vite React + TypeScript pour le frontend, `npm install` des dépendances des deux côtés). Claude a ensuite généré la majorité du code applicatif, que j'ai relu.
 
-Comme c'était ma TOUTE PREMIÈRE EXPÉRIENCE avec TypeScript, c'est de loin ce qui m'a grugé le plus de temps dans le processus parce qu'il y a beaucoup de choses que je voulais m'assurer de comprendre avant de les remettre.
+- Comme c'était ma TOUTE PREMIÈRE EXPÉRIENCE avec TypeScript, c'est de loin ce qui m'a grugé le plus de temps dans le processus parce qu'il y a beaucoup de choses que je voulais m'assurer de comprendre avant de les remettre.
 
-Un exemple de ça, c'est types.ts qui est un tout nouveau concept qui n'existe pas en JavaScript. C'est le genre de truc qui venait de Claude, mais je me suis renseigné pour confirmer que c'est bel et bien un standard pro et moderne. 
+- Un exemple de ça, c'est types.ts qui est un tout nouveau concept qui n'existe pas en JavaScript. C'est le genre de truc qui venait de Claude, mais je me suis renseigné pour confirmer que c'est bel et bien un standard pro et moderne. 
 
-CORS vient de mon ancien projet : le backend indique au navigateur que seule une page venant de l'origine du frontend (5173) a le droit de lire ses réponses.
+- CORS vient de mon ancien projet : le backend indique au navigateur que seule une page venant de l'origine du frontend (5173) a le droit de lire ses réponses.
 
-J'ai demandé à Claude d'implanter des variables d'environnement en s'inspirant de mon autre projet.
+- J'ai demandé à Claude d'implanter des variables d'environnement en s'inspirant de mon autre projet.
 
-Je lui ai aussi demandé de créer une première version de ce README en se fiant aux requis demandés dans le PDF.
+- Je lui ai aussi demandé de créer une première version de ce README en se fiant aux requis demandés dans le PDF.
 
 **Ce que j'ai personnellement vérifié, modifié ou corrigé :**
 
-La deuxième moitié de ce README, ça vient très majoritairement de moi. (D'ailleurs j'ai dépassé le 3h avec la rédaction de tout ça.)
+- La deuxième moitié de ce README, ça vient très majoritairement de moi. (D'ailleurs j'ai dépassé le 3h avec la rédaction de tout ça.)
 
-J'ai relu chaque fichier (à part les CSS et les fichiers créés automatiquement des environnements frontend/backend).
+- J'ai relu chaque fichier (à part les CSS et les fichiers créés automatiquement des environnements frontend/backend).
 
-J'ai parcouru les différents chemins de données possible. Par exemple, le trajet d'une requête : 
-```
+- J'ai parcouru les différents chemins de données possible. Par exemple, le trajet d'une requête : 
+  ```
   TicketForm.tsx → api.ts → (réseau) → app.ts → routes/tickets.ts → ticketStore.ts
   → réponse 201 → api.ts → TicketForm.tsx → onCreated → App.tsx
-```
+  ```
 
-En faisant les tests (voir ci-bas), j'ai découvert qu'un JSON mal formé renvoyait une page HTML avec la trace de la pile et mes chemins de fichiers. J'ai fait ajouter un gestionnaire d'erreurs dans `app.ts` pour répondre en JSON.
+- En faisant les tests (voir ci-bas), j'ai découvert qu'un JSON mal formé renvoyait une page HTML avec la trace de la pile et mes chemins de fichiers. J'ai fait ajouter un gestionnaire d'erreurs dans `app.ts` pour répondre en JSON.
 
-J'ai repris les CSS (en fait, c'est Claude) de mon projet précédent, BoutiqueVinyles, pour flasher un peu mon sens de l'esthétisme et jazzer l'interface un peu. ;)
+- J'ai repris les CSS (en fait, c'est Claude) de mon projet précédent, BoutiqueVinyles, pour flasher un peu mon sens de l'esthétisme et jazzer l'interface un peu. ;)
 
 
 ## Tests effectués
