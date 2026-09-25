@@ -29,6 +29,10 @@ npm run dev
 
 Ouvrir http://localhost:5173 dans le navigateur.
 
+Problème survenu lors des tests : 
+> Si le port 5173 est déjà occupé, Vite en choisit un autre (5174…) et le backend refusera
+> les requêtes (CORS). Définir alors `CORS_ORIGIN` dans `backend/.env` avec l'adresse affichée par Vite.
+
 ### Variables d'environnement (facultatif)
 
 Le projet fonctionne sans configuration : chaque variable a une valeur par défaut.
